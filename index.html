@@ -3,558 +3,428 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AetherScript - Простой и мощный язык программирования</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oePhA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>AetherScript - Документация</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4ElwbwLhBghEWL3d5+8dYkB3ql81n0wCA7OQt56oriTteRU8HA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        :root {
+            --bg-color: #f5f5f7;
+            --text-color: #1d1d1f;
+            --accent-color: #0071e3;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-blur: blur(10px);
+            --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
+
         body {
-            font-family: system-ui, -apple-system, 'SF Pro', Arial, sans-serif;
-            background: #f5f5f7;
-            color: #1d1d1f;
-            line-height: 1.5;
-            overflow-x: hidden;
+            margin: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
         }
+
         nav {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: var(--card-blur);
             position: sticky;
             top: 0;
-            z-index: 1000;
-            padding: 12px 0;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 100;
+            padding: 1rem;
+            box-shadow: var(--shadow);
         }
+
         nav ul {
             list-style: none;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
-            flex-wrap: wrap;
+            gap: 2rem;
         }
-        nav li {
-            margin: 0 15px;
-        }
+
         nav a {
+            color: var(--text-color);
             text-decoration: none;
-            color: #1d1d1f;
-            font-size: 16px;
-            padding: 8px 16px;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            transition: color 0.3s;
         }
+
         nav a:hover {
-            background: rgba(0, 113, 227, 0.3);
-            color: #0071e3;
-            transform: translateY(-2px);
+            color: var(--accent-color);
         }
-        nav a.active {
-            background: #0071e3;
-            color: #fff;
-            font-weight: 600;
-        }
-        .hero {
+
+        header {
             text-align: center;
-            padding: 120px 20px;
-            background: linear-gradient(180deg, #ffffff, #f5f5f7);
+            padding: 4rem 2rem;
             position: relative;
             overflow: hidden;
         }
-        .hero h1 {
-            font-size: 64px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            animation: slideInDown 1s ease-out;
-        }
-        .hero p {
-            font-size: 24px;
-            max-width: 700px;
-            margin: 0 auto 30px;
-            color: #6e6e73;
-            animation: fadeInUp 1s ease-out 0.2s;
-            animation-fill-mode: backwards;
-        }
-        .hero canvas {
-            max-width: 400px;
-            margin: 20px auto;
-            display: block;
-            animation: zoomIn 1s ease-out 0.4s;
-            animation-fill-mode: backwards;
-        }
-        .hero .cta {
-            display: inline-block;
-            padding: 14px 28px;
-            background: rgba(0, 113, 227, 0.9);
-            backdrop-filter: blur(5px);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 25px;
-            font-size: 18px;
-            box-shadow: 0 4px 15px rgba(0, 113, 227, 0.3);
-            transition: all 0.3s ease;
-            animation: fadeInUp 1s ease-out 0.6s;
-            animation-fill-mode: backwards;
-        }
-        .hero .cta:hover {
-            background: rgba(0, 91, 181, 0.9);
-            transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 113, 227, 0.5);
-        }
-        .content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            display: none;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .content.active {
-            display: block;
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .content h2 {
-            font-size: 40px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            animation: slideInLeft 0.5s ease-out;
-        }
-        .content p {
-            font-size: 18px;
-            color: #6e6e73;
-            margin-bottom: 20px;
-        }
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
-        }
-        .code-example {
-            background: rgba(245, 245, 247, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-        .editor {
-            background: rgba(30, 30, 30, 0.9);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        .editor textarea {
-            width: 100%;
-            height: 200px;
-            background: transparent;
-            color: #fff;
-            border: none;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            resize: none;
-        }
-        .editor button {
-            padding: 10px 20px;
-            background: rgba(0, 113, 227, 0.9);
-            backdrop-filter: blur(5px);
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        .editor button:hover {
-            background: rgba(0, 91, 181, 0.9);
-            transform: scale(1.05);
-        }
-        .output {
-            background: rgba(245, 245, 247, 0.8);
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            min-height: 50px;
-        }
-        .parallax {
-            background: url('https://via.placeholder.com/1200x400') center/cover no-repeat;
-            height: 400px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 36px;
-            text-align: center;
-            margin: 40px 0;
-            position: relative;
-            background-attachment: fixed;
-            background-position: center;
-            transform: translateZ(0);
-        }
-        .parallax-overlay {
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
+
+        header canvas#particles {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
+            z-index: -1;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin: 0;
+            animation: fadeIn 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 1rem auto;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .docs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .doc-card {
+            background: var(--card-bg);
+            backdrop-filter: var(--card-blur);
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        .doc-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .doc-card h3 {
+            margin-top: 0;
+            color: var(--accent-color);
+        }
+
+        .doc-card pre {
+            background: rgba(0, 0, 0, 0.05);
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .doc-card button {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .doc-card button:hover {
+            transform: scale(1.05);
+        }
+
+        .sandbox {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
         }
+
+        .sandbox textarea {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            background: var(--card-bg);
+            backdrop-filter: var(--card-blur);
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            font-family: monospace;
+            box-shadow: var(--shadow);
+            resize: vertical;
+        }
+
+        .sandbox #preview {
+            flex: 1;
+            background: #fff;
+            border-radius: 10px;
+            padding: 1rem;
+            box-shadow: var(--shadow);
+            min-height: 300px;
+        }
+
+        .sandbox button {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .sandbox button:hover {
+            transform: scale(1.05);
+        }
+
         footer {
-            background: rgba(245, 245, 247, 0.8);
-            padding: 20px;
             text-align: center;
-            color: #6e6e73;
-            font-size: 14px;
-            backdrop-filter: blur(10px);
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: var(--card-blur);
+            box-shadow: var(--shadow);
         }
-        @keyframes slideInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes fadeInUp {
+
+        @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes zoomIn {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
         @media (max-width: 768px) {
-            .hero h1 { font-size: 40px; }
-            .hero p { font-size: 18px; }
-            nav li { margin: 0 8px; }
-            nav a { font-size: 14px; padding: 6px 12px; }
-            .content h2 { font-size: 28px; }
-            .parallax { background-attachment: scroll; height: 300px; }
-            .parallax-overlay { font-size: 24px; }
+            nav ul { flex-direction: column; align-items: center; }
+            header h1 { font-size: 2rem; }
+            .sandbox { flex-direction: column; }
         }
     </style>
 </head>
 <body>
     <nav>
         <ul>
-            <li><a href="#home" class="active">Главная</a></li>
-            <li><a href="#about">О AetherScript</a></li>
-            <li><a href="#features">Возможности</a></li>
+            <li><a href="#home">Главная</a></li>
             <li><a href="#docs">Документация</a></li>
-            <li><a href="#examples">Примеры</a></li>
-            <li><a href="#download">Загрузка</a></li>
-            <li><a href="#community">Сообщество</a></li>
-            <li><a href="#support">Поддержка</a></li>
-            <li><a href="#blog">Блог</a></li>
-            <li><a href="#faq">FAQ</a></li>
-            <li><a href="#tutorials">Уроки</a></li>
-            <li><a href="#playground">Песочница</a></li>
+            <li><a href="#sandbox">Песочница</a></li>
+            <li><a href="#about">О проекте</a></li>
         </ul>
     </nav>
-    <section id="home" class="hero">
+
+    <header id="home">
+        <canvas id="particles"></canvas>
         <h1>AetherScript</h1>
-        <p>Простой язык программирования для всех, от новичков до экспертов.</p>
-        <canvas id="logoCanvas" width="400" height="400"></canvas>
-        <a href="https://4-key.itch.io/aetherscript" class="cta">Начать программировать</a>
-    </section>
-    <section id="about" class="content">
-        <h2>О AetherScript</h2>
-        <p>AetherScript — это язык программирования, созданный для упрощения обучения и разработки. Его интуитивный синтаксис позволяет новичкам быстро освоиться, а мощные возможности делают его подходящим для профессиональных проектов.</p>
-        <div class="card">
-            <h3>История</h3>
-            <p>Создан в 2025 году командой Nicet Software, AetherScript вдохновлён идеей сделать программирование доступным для всех.</p>
-        </div>
-        <div class="parallax">
-            <div class="parallax-overlay">Код, который объединяет</div>
-        </div>
-    </section>
-    <section id="features" class="content">
-        <h2>Возможности</h2>
-        <p>AetherScript предлагает множество функций для упрощения программирования:</p>
-        <div class="card">
-            <h3>Простота</h3>
-            <p>Интуитивный синтаксис, понятный даже детям.</p>
-        </div>
-        <div class="card">
-            <h3>Производительность</h3>
-            <p>Быстрый интерпретатор для мгновенного выполнения кода.</p>
-        </div>
-        <div class="card">
-            <h3>Кроссплатформенность</h3>
-            <p>Работает на Windows, macOS, Linux и в вебе.</p>
-        </div>
-    </section>
-    <section id="docs" class="content">
+        <p>Простой и мощный язык программирования для начинающих и профессионалов.</p>
+    </header>
+
+    <section id="docs">
         <h2>Документация</h2>
-        <p>Полное руководство по AetherScript, включая синтаксис, примеры и лучшие практики.</p>
-        <div class="card">
-            <h3>Основы</h3>
-            <p>Начните с базовых конструкций: переменные, циклы, условия.</p>
-        </div>
-        <div class="card">
-            <h3>Продвинутые темы</h3>
-            <p>Изучите модули, функции и интеграцию с другими языками.</p>
-        </div>
-        <div class="parallax">
-            <div class="parallax-overlay">Учитесь с лёгкостью</div>
-        </div>
-    </section>
-    <section id="examples" class="content">
-        <h2>Примеры</h2>
-        <p>Попробуйте AetherScript на реальных примерах кода.</p>
-        <div class="code-example">
-            <pre><code class="language-aether">let name = "Мир";
-print("Привет, " + name + "!");
-if name == "Мир" {
-    print("Это приветствие для всех!");
-}</code></pre>
-        </div>
-        <div class="code-example">
-            <pre><code class="language-aether">let x = input("Введите число: ");
-if x > 100 {
-    print("Большое число!");
+        <div class="docs-grid">
+            <div class="doc-card">
+                <h3>let</h3>
+                <p>Объявляет переменную.</p>
+                <pre><code class="language-aetherscript">let x = 42;</code></pre>
+                <button onclick="tryCode('let x = 42;\nprint(x);')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>print</h3>
+                <p>Выводит значение в консоль.</p>
+                <pre><code class="language-aetherscript">print("Привет, мир!");</code></pre>
+                <button onclick="tryCode('print(\"Привет, мир!\");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>if / else</h3>
+                <p>Условный оператор.</p>
+                <pre><code class="language-aetherscript">if x > 10 {
+    print("x больше 10");
 } else {
-    print("Маленькое число.");
+    print("x меньше или равно 10");
 }</code></pre>
+                <button onclick="tryCode('let x = 15;\nif x > 10 {\n    print(\"x больше 10\");\n} else {\n    print(\"x меньше или равно 10\");\n}')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>input</h3>
+                <p>Запрашивает ввод пользователя.</p>
+                <pre><code class="language-aetherscript">input("Введите число: ");</code></pre>
+                <button onclick="tryCode('input(\"Введите число: \");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>createElement</h3>
+                <p>Создаёт HTML-элемент с указанным ID.</p>
+                <pre><code class="language-aetherscript">createElement("div", "myDiv");</code></pre>
+                <button onclick="tryCode('createElement(\"div\", \"myDiv\");\nappendChild(\"app\", \"myDiv\");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>setText</h3>
+                <p>Устанавливает текст для элемента.</p>
+                <pre><code class="language-aetherscript">setText("myDiv", "Привет!");</code></pre>
+                <button onclick="tryCode('createElement(\"div\", \"myDiv\");\nsetText(\"myDiv\", \"Привет!\");\nappendChild(\"app\", \"myDiv\");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>setStyle</h3>
+                <p>Устанавливает CSS-свойство для элемента.</p>
+                <pre><code class="language-aetherscript">setStyle("myDiv", "background", "#f0f0f0");</code></pre>
+                <button onclick="tryCode('createElement(\"div\", \"myDiv\");\nsetStyle(\"myDiv\", \"background\", \"#f0f0f0\");\nappendChild(\"app\", \"myDiv\");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>addEvent</h3>
+                <p>Добавляет обработчик событий.</p>
+                <pre><code class="language-aetherscript">addEvent("btn", "click", "print('Нажато!');");</code></pre>
+                <button onclick="tryCode('createElement(\"button\", \"btn\");\nsetText(\"btn\", \"Нажми\");\naddEvent(\"btn\", \"click\", \"print(\\\'Нажато!\\\');\");\nappendChild(\"app\", \"btn\");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>appendChild</h3>
+                <p>Добавляет дочерний элемент в родительский.</p>
+                <pre><code class="language-aetherscript">appendChild("app", "myDiv");</code></pre>
+                <button onclick="tryCode('createElement(\"div\", \"myDiv\");\nappendChild(\"app\", \"myDiv\");')">Попробовать</button>
+            </div>
+        </div>
+        <h3>Примеры веб-приложений</h3>
+        <div class="docs-grid">
+            <div class="doc-card">
+                <h3>Счётчик</h3>
+                <p>Простой счётчик с кнопкой.</p>
+                <pre><code class="language-aetherscript">createElement("div", "container");
+setStyle("container", "padding", "20px");
+createElement("button", "btn");
+setText("btn", "Нажми меня");
+setStyle("btn", "background", "#0071e3");
+setStyle("btn", "color", "#fff");
+appendChild("container", "btn");
+addEvent("btn", "click", "print('Кнопка нажата!');");
+appendChild("app", "container");</code></pre>
+                <button onclick="tryCode('createElement(\"div\", \"container\");\nsetStyle(\"container\", \"padding\", \"20px\");\ncreateElement(\"button\", \"btn\");\nsetText(\"btn\", \"Нажми меня\");\nsetStyle(\"btn\", \"background\", \"#0071e3\");\nsetStyle(\"btn\", \"color\", \"#fff\");\nappendChild(\"container\", \"btn\");\naddEvent(\"btn\", \"click\", \"print(\\\'Кнопка нажата!\\\');\");\nappendChild(\"app\", \"container\");')">Попробовать</button>
+            </div>
+            <div class="doc-card">
+                <h3>Todo-лист</h3>
+                <p>Список задач с вводом.</p>
+                <pre><code class="language-aetherscript">createElement("div", "container");
+setStyle("container", "padding", "20px");
+createElement("input", "taskInput");
+setStyle("taskInput", "marginRight", "10px");
+createElement("button", "addBtn");
+setText("addBtn", "Добавить");
+setStyle("addBtn", "background", "#0071e3");
+setStyle("addBtn", "color", "#fff");
+createElement("ul", "taskList");
+appendChild("container", "taskInput");
+appendChild("container", "addBtn");
+appendChild("container", "taskList");
+addEvent("addBtn", "click", "print('Задача добавлена!');");
+appendChild("app", "container");</code></pre>
+                <button onclick="tryCode('createElement(\"div\", \"container\");\nsetStyle(\"container\", \"padding\", \"20px\");\ncreateElement(\"input\", \"taskInput\");\nsetStyle(\"taskInput\", \"marginRight\", \"10px\");\ncreateElement(\"button\", \"addBtn\");\nsetText(\"addBtn\", \"Добавить\");\nsetStyle(\"addBtn\", \"background\", \"#0071e3\");\nsetStyle(\"addBtn\", \"color\", \"#fff\");\ncreateElement(\"ul\", \"taskList\");\nappendChild(\"container\", \"taskInput\");\nappendChild(\"container\", \"addBtn\");\nappendChild(\"container\", \"taskList\");\naddEvent(\"addBtn\", \"click\", \"print(\\\'Задача добавлена!\\\');\");\nappendChild(\"app\", \"container\");')">Попробовать</button>
+            </div>
         </div>
     </section>
-    <section id="download" class="content">
-        <h2>Загрузка</h2>
-        <p>Скачайте AetherScript и начните создавать свои проекты.</p>
-        <div class="card">
-            <h3>Последняя версия</h3>
-            <p>AetherScript v1.0 доступен для всех платформ.</p>
-            <a href="#" class="cta">Скачать сейчас</a>
-        </div>
-        <div class="parallax">
-            <div class="parallax-overlay">Ваше программирование начинается здесь</div>
-        </div>
-    </section>
-    <section id="community" class="content">
-        <h2>Сообщество</h2>
-        <p>Присоединяйтесь к растущему сообществу разработчиков AetherScript.</p>
-        <div class="card">
-            <h3>GitHub</h3>
-            <p>Вносите вклад в проект или изучайте исходный код.</p>
-            <a href="https://github.com/Nicetink/AetherScript" class="cta">Посетить GitHub</a>
-        </div>
-        <div class="card">
-            <h3>Discord</h3>
-            <p>Общайтесь с другими разработчиками в реальном времени.</p>
-            <a href="#" class="cta">Присоединиться к Discord</a>
-        </div>
-    </section>
-    <section id="support" class="content">
-        <h2>Поддержка</h2>
-        <p>Нужна помощь? Мы здесь, чтобы помочь.</p>
-        <div class="card">
-            <h3>Форум</h3>
-            <p>Задавайте вопросы и получайте ответы от сообщества.</p>
-        </div>
-        <div class="card">
-            <h3>Email</h3>
-            <p>Свяжитесь с нашей командой поддержки.</p>
-        </div>
-        <div class="parallax">
-            <div class="parallax-overlay">Мы всегда рядом</div>
-        </div>
-    </section>
-    <section id="blog" class="content">
-        <h2>Блог</h2>
-        <p>Последние новости, обновления и статьи о AetherScript.</p>
-        <div class="card">
-            <h3>Запуск AetherScript 1.0</h3>
-            <p>Читайте о нашем релизе и новых функциях.</p>
-        </div>
-        <div class="card">
-            <h3>Как создать игру на AetherScript</h3>
-            <p>Пошаговое руководство для начинающих.</p>
-        </div>
-    </section>
-    <section id="faq" class="content">
-        <h2>FAQ</h2>
-        <p>Ответы на часто задаваемые вопросы.</p>
-        <div class="card">
-            <h3>Что такое AetherScript?</h3>
-            <p>Это простой язык программирования для обучения и разработки.</p>
-        </div>
-        <div class="card">
-            <h3>Как установить AetherScript?</h3>
-            <p>Скачайте последнюю версию с нашего сайта и следуйте инструкциям.</p>
-        </div>
-        <div class="parallax">
-            <div class="parallax-overlay">Ваши вопросы — наши ответы</div>
-        </div>
-    </section>
-    <section id="tutorials" class="content">
-        <h2>Уроки</h2>
-        <p>Пошаговые руководства для изучения AetherScript.</p>
-        <div class="card">
-            <h3>Введение в программирование</h3>
-            <p>Основы для абсолютных новичков.</p>
-        </div>
-        <div class="card">
-            <h3>Создание веб-приложений</h3>
-            <p>Используйте AetherScript для веб-разработки.</p>
-        </div>
-    </section>
-    <section id="playground" class="content active">
+
+    <section id="sandbox">
         <h2>Песочница</h2>
-        <p>Попробуйте AetherScript прямо в браузере!</p>
-        <div class="editor">
-            <textarea id="codeEditor">let x = 42;
-print(x);
-if x > 40 {
-    print("Большое число!");
-}</textarea>
-            <button onclick="runCode()">Запустить</button>
-            <div id="output" class="output"></div>
-        </div>
-        <div class="parallax">
-            <div class="parallax-overlay">Экспериментируйте с кодом</div>
+        <div class="sandbox">
+            <div>
+                <textarea id="code" placeholder="Введите код AetherScript..."></textarea>
+                <button onclick="runCode()">Запустить</button>
+                <button onclick="exportHtml()">Экспорт HTML</button>
+            </div>
+            <div id="preview"></div>
         </div>
     </section>
+
+    <section id="about">
+        <h2>О проекте</h2>
+        <p>AetherScript — это язык программирования, созданный для упрощения обучения программированию. Поддерживает веб-разработку через DOM.</p>
+        <p>© 2025 Nicet Software. Лицензия NSPL 1.0</p>
+    </section>
+
     <footer>
-        <p>© 2025 Nicet Software and Nicet ink & 4KEY. Лицензия NSPL 1.0</p>
+        <p>GitHub: <a href="https://github.com/Nicetink/AetherScript">AetherScript</a></p>
     </footer>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE/88UhuadKwGObgXJZ7n4iw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js" integrity="sha512-7Z9J3l1+EYfeaPKcGXu3MS/7T+w19WtKQY/n+xzmw4hZhJ9tyYmcUS+4QqAlzhicE5LAfMQSF3iFTK9bQdTxXgA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
-        // Навигация по вкладкам
-        const navLinks = document.querySelectorAll('nav a');
-        const sections = document.querySelectorAll('.content');
-        navLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').slice(1);
-                sections.forEach(section => {
-                    section.classList.remove('active');
-                    if (section.id === targetId) {
-                        section.classList.add('active');
-                    }
-                });
-                navLinks.forEach(l => l.classList.remove('active'));
-                link.classList.add('active');
-                if (targetId === 'home') {
-                    document.querySelector('.hero').style.display = 'block';
-                    sections.forEach(s => s.classList.remove('active'));
-                } else {
-                    document.querySelector('.hero').style.display = 'none';
-                }
-            });
-        });
-
-        // Анимация логотипа с частицами
-        const canvas = document.getElementById('logoCanvas');
+        // Частицы для логотипа
+        const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
-        let particles = [];
-        let angle = 0;
-
-        class Particle {
-            constructor() {
-                this.x = canvas.width / 2;
-                this.y = canvas.height / 2;
-                this.vx = (Math.random() - 0.5) * 4;
-                this.vy = (Math.random() - 0.5) * 4;
-                this.alpha = 1;
-                this.size = Math.random() * 3 + 1;
-            }
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.alpha -= 0.01;
-                this.size *= 0.98;
-            }
-            draw() {
-                ctx.fillStyle = `rgba(0, 113, 227, ${this.alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function drawLogo() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.save();
-            ctx.translate(canvas.width / 2, canvas.height / 2);
-            ctx.rotate(angle);
-            ctx.fillStyle = '#0071e3';
-            ctx.font = '120px system-ui';
-            ctx.textAlign = 'center';
-            ctx.fillText('A', 0, 40);
-            ctx.restore();
-
-            if (Math.random() < 0.1) {
-                particles.push(new Particle());
-            }
-            particles = particles.filter(p => p.alpha > 0 && p.size > 0.1);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        canvas.width = window.innerWidth;
+        canvas.height = 400;
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                vx: Math.random() * 2 - 1,
+                vy: Math.random() * 2 - 1
             });
-
-            angle += 0.02;
-            requestAnimationFrame(drawLogo);
         }
-        drawLogo();
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(0, 113, 227, 0.5)';
+                ctx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
 
         // Интерпретатор AetherScript
         class AetherScriptInterpreter {
             constructor() {
                 this.variables = {};
+                this.jsBuffer = [];
             }
+
             evaluateExpression(expr) {
                 expr = expr.trim();
                 try {
-                    if (/^\d+\.?\d*$/.test(expr)) {
-                        return expr.includes('.') ? parseFloat(expr) : parseInt(expr);
-                    }
-                    if (expr.startsWith('"') && expr.endsWith('"')) {
-                        return expr.slice(1, -1);
-                    }
-                    if (expr in this.variables) {
-                        return this.variables[expr];
-                    }
+                    if (/^\d+(\.\d+)?$/.test(expr)) return parseFloat(expr);
+                    if (expr.startsWith('"') && expr.endsWith('"')) return expr.slice(1, -1);
+                    if (expr in this.variables) return this.variables[expr];
                     expr = expr.replace(/\s/g, '');
                     if (expr.includes('+')) {
-                        const [left, right] = expr.split('+', 2);
+                        let [left, right] = expr.split('+', 2);
                         return this.evaluateExpression(left) + this.evaluateExpression(right);
                     }
                     if (expr.includes('-')) {
-                        const [left, right] = expr.split('-', 2);
+                        let [left, right] = expr.split('-', 2);
                         return this.evaluateExpression(left) - this.evaluateExpression(right);
                     }
                     if (expr.includes('*')) {
-                        const [left, right] = expr.split('*', 2);
+                        let [left, right] = expr.split('*', 2);
                         return this.evaluateExpression(left) * this.evaluateExpression(right);
                     }
                     if (expr.includes('/')) {
-                        const [left, right] = expr.split('/', 2);
+                        let [left, right] = expr.split('/', 2);
                         return this.evaluateExpression(left) / this.evaluateExpression(right);
                     }
                     throw new Error(`Некорректное выражение: ${expr}`);
                 } catch (e) {
-                    throw new Error(`Ошибка в выражении: ${expr}`);
+                    console.error(`Ошибка в evaluateExpression: ${expr}, ${e}`);
+                    throw new Error(`Некорректное выражение: ${expr}`);
                 }
             }
+
             execute(code) {
+                this.jsBuffer = [];
                 const output = [];
                 const errors = [];
                 const lines = code.split('\n');
-                for (let i = 0; i < lines.length; i++) {
-                    const line = lines[i].trim();
-                    if (!line || line.startsWith('//')) continue;
+                let i = 0;
+                while (i < lines.length) {
+                    let line = lines[i].trim();
+                    if (!line || line.startsWith('//')) {
+                        i++;
+                        continue;
+                    }
                     try {
                         if (line.startsWith('let ')) {
                             const match = line.match(/let (\w+) = (.+);/);
@@ -564,6 +434,7 @@ if x > 40 {
                             }
                             const [, varName, expr] = match;
                             this.variables[varName] = this.evaluateExpression(expr);
+                            i++;
                             continue;
                         }
                         if (line.startsWith('print(')) {
@@ -574,6 +445,7 @@ if x > 40 {
                             }
                             const value = this.evaluateExpression(match[1]);
                             output.push(String(value));
+                            i++;
                             continue;
                         }
                         if (line.startsWith('input(')) {
@@ -582,9 +454,11 @@ if x > 40 {
                                 errors.push(`Ошибка: Некорректная команда input: ${line}`);
                                 return errors;
                             }
-                            const userInput = prompt(match[1]) || "42";
+                            const prompt = match[1];
+                            const userInput = "42";
+                            output.push(`${prompt}${userInput}`);
                             this.variables['input_result'] = userInput;
-                            output.push(userInput);
+                            i++;
                             continue;
                         }
                         if (line.startsWith('if ')) {
@@ -593,7 +467,8 @@ if x > 40 {
                                 errors.push(`Ошибка: Некорректная команда if: ${line}`);
                                 return errors;
                             }
-                            const condition = this.evaluateExpression(match[1]);
+                            const condition = match[1];
+                            const condValue = this.evaluateExpression(condition);
                             const blockLines = [];
                             i++;
                             while (i < lines.length && lines[i].trim() !== '}') {
@@ -604,76 +479,172 @@ if x > 40 {
                                 errors.push(`Ошибка: Незакрытый блок if`);
                                 return errors;
                             }
-                            if (condition) {
-                                output.push(...this.execute(blockLines.join('\n')));
+                            i++;
+                            const elseBlock = [];
+                            if (i < lines.length && lines[i].trim().startsWith('else')) {
+                                i++;
+                                while (i < lines.length && lines[i].trim() !== '}') {
+                                    elseBlock.push(lines[i]);
+                                    i++;
+                                }
+                                if (i >= lines.length) {
+                                    errors.push(`Ошибка: Незакрытый блок else`);
+                                    return errors;
+                                }
+                                i++;
                             }
+                            if (condValue) {
+                                output.push(...this.execute(blockLines.join('\n')));
+                            } else if (elseBlock.length) {
+                                output.push(...this.execute(elseBlock.join('\n')));
+                            }
+                            continue;
+                        }
+                        if (line.startsWith('createElement(')) {
+                            const match = line.match(/createElement\("([^"]+)","([^"]+)"\);/);
+                            if (!match) {
+                                errors.push(`Ошибка: Некорректная команда createElement: ${line}`);
+                                return errors;
+                            }
+                            const [, elemType, elemId] = match;
+                            this.jsBuffer.push(`document.createElement('${elemType}').id = '${elemId}';`);
+                            i++;
+                            continue;
+                        }
+                        if (line.startsWith('setText(')) {
+                            const match = line.match(/setText\("([^"]+)","([^"]+)"\);/);
+                            if (!match) {
+                                errors.push(`Ошибка: Некорректная команда setText: ${line}`);
+                                return errors;
+                            }
+                            const [, elemId, text] = match;
+                            this.jsBuffer.push(`document.getElementById('${elemId}').textContent = '${text}';`);
+                            i++;
+                            continue;
+                        }
+                        if (line.startsWith('setStyle(')) {
+                            const match = line.match(/setStyle\("([^"]+)","([^"]+)","([^"]+)"\);/);
+                            if (!match) {
+                                errors.push(`Ошибка: Некорректная команда setStyle: ${line}`);
+                                return errors;
+                            }
+                            const [, elemId, prop, value] = match;
+                            this.jsBuffer.push(`document.getElementById('${elemId}').style.${prop} = '${value}';`);
+                            i++;
+                            continue;
+                        }
+                        if (line.startsWith('appendChild(')) {
+                            const match = line.match(/appendChild\("([^"]+)","([^"]+)"\);/);
+                            if (!match) {
+                                errors.push(`Ошибка: Некорректная команда appendChild: ${line}`);
+                                return errors;
+                            }
+                            const [, parentId, childId] = match;
+                            this.jsBuffer.push(`document.getElementById('${parentId}').appendChild(document.getElementById('${childId}'));`);
+                            i++;
+                            continue;
+                        }
+                        if (line.startsWith('addEvent(')) {
+                            const match = line.match(/addEvent\("([^"]+)","([^"]+)","([^"]+)"\);/);
+                            if (!match) {
+                                errors.push(`Ошибка: Некорректная команда addEvent: ${line}`);
+                                return errors;
+                            }
+                            const [, elemId, event, code] = match;
+                            const jsCode = this.convertToJs(code);
+                            this.jsBuffer.push(`document.getElementById('${elemId}').addEventListener('${event}', () => {${jsCode}});`);
+                            i++;
                             continue;
                         }
                         errors.push(`Ошибка: Неизвестная команда: ${line}`);
                         return errors;
                     } catch (e) {
+                        console.error(`Ошибка на строке ${i + 1}: ${line}, ${e}`);
                         errors.push(`Ошибка выполнения: ${e.message}`);
                         return errors;
                     }
                 }
                 return output.length ? output : ["Нет вывода"];
             }
+
+            convertToJs(code) {
+                const lines = code.split(';').map(line => line.trim()).filter(line => line);
+                const jsCode = [];
+                for (const line of lines) {
+                    if (line.startsWith('print(')) {
+                        const match = line.match(/print\((.+)\)/);
+                        if (match) {
+                            const value = this.evaluateExpression(match[1]);
+                            jsCode.push(`console.log('${value}');`);
+                        }
+                    } else if (line.startsWith('let ')) {
+                        const match = line.match(/let (\w+) = (.+)/);
+                        if (match) {
+                            const [, varName, expr] = match;
+                            const value = this.evaluateExpression(expr);
+                            jsCode.push(`let ${varName} = ${JSON.stringify(value)};`);
+                        }
+                    }
+                }
+                return jsCode.join('\n');
+            }
+
+            getJsCode() {
+                return this.jsBuffer.join('\n');
+            }
         }
 
         const interpreter = new AetherScriptInterpreter();
-        function runCode() {
-            const code = document.getElementById('codeEditor').value;
-            const outputDiv = document.getElementById('output');
-            outputDiv.innerHTML = '';
-            const result = interpreter.execute(code);
-            outputDiv.innerHTML = result.join('<br>');
-            outputDiv.style.animation = 'pulse 0.3s ease';
+
+        function tryCode(code) {
+            document.getElementById('code').value = code;
+            runCode();
         }
 
-        // Анимации прокрутки
-        window.addEventListener('scroll', () => {
-            const elements = document.querySelectorAll('.content, .card, .parallax');
-            elements.forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight * 0.8) {
-                    el.style.opacity = '1';
-                    el.style.transform = 'translateY(0)';
-                    if (el.classList.contains('card')) {
-                        el.style.animation = 'slideInUp 0.5s ease-out';
-                    }
-                }
-            });
-        });
-
-        // Сброс анимации для повторного запуска
-        document.querySelectorAll('.content').forEach(content => {
-            content.addEventListener('transitionend', () => {
-                content.style.animation = 'none';
-            });
-        });
-
-        // Пульсация кнопки при клике
-        document.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.style.animation = 'pulse 0.3s ease';
-                setTimeout(() => btn.style.animation = 'none', 300);
-            });
-        });
-
-        // Стили для анимации пульсации
-        const style = document.createElement('style');
-        style.innerHTML = `
-            @keyframes pulse {
-                0% { transform: scale(1); }
-                50% { transform: scale(1.1); }
-                100% { transform: scale(1); }
+        function runCode() {
+            const code = document.getElementById('code').value;
+            const preview = document.getElementById('preview');
+            preview.innerHTML = '';
+            const result = interpreter.execute(code);
+            if (result[0].startsWith('Ошибка:')) {
+                preview.innerHTML = `<p style="color: red;">${result.join('<br>')}</p>`;
+            } else {
+                console.log(result);
+                const jsCode = interpreter.getJsCode();
+                const script = document.createElement('script');
+                script.textContent = jsCode;
+                preview.appendChild(script);
             }
-            @keyframes slideInUp {
-                from { opacity: 0; transform: translateY(20px); }
-                to { opacity: 1; transform: translateY(0); }
-            }
-        `;
-        document.head.appendChild(style);
+        }
+
+        function exportHtml() {
+            const jsCode = interpreter.getJsCode();
+            const html = `
+            <html>
+            <head>
+                <title>AetherScript App</title>
+                <style>
+                    body { font-family: system-ui; background: #f5f5f7; padding: 20px; }
+                    #app { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+                    button { padding: 10px 20px; background: #0071e3; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: transform 0.3s; }
+                    button:hover { transform: scale(1.05); }
+                </style>
+            </head>
+            <body>
+                <div id="app"></div>
+                <script>
+                    ${jsCode}
+                </script>
+            </body>
+            </html>`;
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'aetherscript_app.html';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
     </script>
 </body>
 </html>
